@@ -19,14 +19,15 @@
       value="04">April</option> <option value="05">May</option> <option value="06">June</option> <option value="07">July</option> <option
       value="08">August</option> <option value="09">September</option> <option value="10">October</option> <option value="11">November</option> <option
       value="12">December</option> </select>
-      <select id="d" name="d"></select><select id="y" name="y"></select>
+      <select id="d" name="d"></select>
+      <select id="y" name="y"></select>
       <input id="name" name="msg" type="text" maxlength="500" value="days on earth."/>
       <input type="submit" value="Go"/>
       </form>
       <p id="string">preview</p>
-  		<canvas width="700" height="100" id="myCanvas"> <p>it's been a while'</p> </canvas>
+  		<canvas width="700" height="100" id="myCanvas"> <p>#fail</p> </canvas>
 		</div>
-		<footer> </footer>
+<a id="fork" href="http://github.com/lennyjpg/count/" rel="noreferrer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a><footer></footer>
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<style>
@@ -42,6 +43,7 @@
 	footer{text-align:center;padding: 20px;}
 	</style>
 	<script>
+	var totalmarks=0;
 	var context;
   var offset=0;
   var name;
@@ -58,9 +60,8 @@ ta.innerHTML=str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
 return ta.value;
 }
   function clickclack(k,msg){
-    	var num = getDays(k);
+    	var num = k;
     	var w=$(window).get(0).innerWidth-10;
-    	var h=5000;
     	var p=Array();
     	var rand=20;
     	var x=rand; 
@@ -95,10 +96,10 @@ return ta.value;
     	var ypos=y-30;
       $('#extra').css('top',ypos+'px').css('left','30px').css('text-indent',posx+'px');
       $('footer').append('<div id="shorturl"><a href="/count/">Make new!</a></div>');
-
   }
   
   function mark(x,y,close){
+    totalmarks++;
   	var step=4.0;
   	var l=Math.random()*10.0+16;
   	var angle=(Math.random()*16.0-8)/180.0*Math.PI;
@@ -135,7 +136,6 @@ return ta.value;
   }
   
   function setPreview(days){
-    //name=(getUrlVars()['msg']);
     name=$('#name').val();
     $('#string').text(days+" "+name);
   }
@@ -146,7 +146,9 @@ return ta.value;
     	var yy=getUrlVars()['y'];
     	var msg=decodeURI(unescape(getUrlVars()['msg'].replace(/\+/g, " ")));
     	msg = $("<div/>").html(msg).text();
-    	clickclack(getDays(mm+"/"+dd+"/"+yy),msg);
+    	var numberOfDays=getDays(mm+"/"+dd+"/"+yy)
+    	clickclack(numberOfDays,msg);    	
+    	$('#fork').hide();
   }
   function showForm(){
     var years="";
