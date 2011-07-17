@@ -1,4 +1,6 @@
-<!doctype html><html lang="en" class="no-js"><head>
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
 	<meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>counting days</title>
 	<meta name="description" content="days and days and days"><meta name="author" content="Leander Herzog">
@@ -50,17 +52,6 @@
       return vars;
   }
 function getDays(k){ var diff = new Date()-new Date(k); return Math.round(diff / 1000 / (60 * 60 * 24)); }
-function bit_url(url){
-var url=url;
-var username="leanderherzog";
-var key="R_cd9f5d6085504ccb5a8811356b878912";
-$.ajax({url:"http://api.bit.ly/v3/shorten",data:{longUrl:url,apiKey:key,login:username},dataType:"jsonp",success:function(v){
-var bit_url=v.data.url;$("#shorturl").html('<a href="/count/">Make new!</a><br /><a href="'+bit_url+'" target="_blank">share: '+bit_url+'</a>');
-}
-});
-}
-
-
 function html_entity_decode(str) {
 var ta=document.createElement("textarea");
 ta.innerHTML=str.replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -103,9 +94,8 @@ return ta.value;
     	var posx = x-10;
     	var ypos=y-30;
       $('#extra').css('top',ypos+'px').css('left','30px').css('text-indent',posx+'px');
-      $('footer').append('<div id="shorturl"></div>');
-      var url = $.url().attr('source');
-      bit_url(url);
+      $('footer').append('<div id="shorturl"><a href="/count/">Make new!</a></div>');
+
   }
   
   function mark(x,y,close){
