@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div id="container">
-		<header></header>
+		<header><h1>ever wondered how old you are?<br />enter your date of birth:</h1></header>
 		<div id="main" role="main">
 		  <form id="userinput" action="/count/" method="get" enctype="application/x-www-form-urlencoded">
       <select id="m" name="m"> <option value="01">January</option> <option value="02">February</option> <option value="03">March</option> <option
@@ -22,9 +22,8 @@
       <select id="d" name="d"></select>
       <select id="y" name="y"></select>
       <input id="name" name="msg" type="text" maxlength="500" value="days on earth."/>
-      <input type="submit" value="Go"/>
+      <input type="submit" value="let's see..."/>
       </form>
-      <p id="string">preview</p>
   		<canvas width="700" height="100" id="myCanvas"> <p>#fail</p> </canvas>
 		</div>
 <a id="fork" href="http://github.com/lennyjpg/count/" rel="noreferrer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a><footer></footer>
@@ -38,8 +37,8 @@
 	#extra{width: 94%;padding: 0px 50px 0px 0px;color:#333}
 	body{padding: 0px;margin:0px;width: 100%;overflow-x:hidden;font-family:'Shadows Into Light'}
 	p{font-size: 26px;position: absolute;}
+	header{width:100%;height: 100px;display:block;clear:both;text-align:center}
 	form{width: 100%;min-height: 100px;text-align:center;margin: 0px 0px;margin: 20px;}
-	#string{display:none;margin: 0px auto;width: 100%; height:auto;text-align:center;font-size: 160%;}
 	footer{text-align:center;padding: 20px;}
 	</style>
 	<script>
@@ -134,12 +133,6 @@ return ta.value;
     }
     alert('Query Variable ' + variable + ' not found');
   }
-  
-  function setPreview(days){
-    name=$('#name').val();
-    $('#string').text(days+" "+name);
-  }
-  
   function showData(){
       var mm=getUrlVars()['m'];
     	var dd=getUrlVars()['d'];
@@ -149,39 +142,28 @@ return ta.value;
     	var numberOfDays=getDays(mm+"/"+dd+"/"+yy)
     	clickclack(numberOfDays,msg);    	
     	$('#fork').hide();
+    	$('header').hide();
   }
   function showForm(){
     var years="";
-    for(var i=0;i<100;i++)years+='<option value="'+(2011-i)+'">'+(2011-i)+'</option>';
+    for(var i=0;i<100;i++){
+      if(2011-i==1984)years+='<option value="'+(2011-i)+'" selected>'+(2011-i)+'</option>';
+      else years+='<option value="'+(2011-i)+'">'+(2011-i)+'</option>';
+    }
     $('#y').append(years);
     var days="";
     for(var i=1;i<32;i++)days+='<option value="'+i+'">'+i+'</option>';
     $('#d').append(days);
-    var mm=$('#m').val();
-  	var dd=$('#d').val();
-  	var yy=$('#y').val();
-  	setPreview( getDays(mm+"/"+dd+"/"+yy) );
   	$('#userinput').show();
-	  $('#string').show();
   }
   
   $(document).ready(function() {	
     var params=getUrlVars().length;
     if(params>3){showData();}
     else{showForm();}
-    $('#userinput').change(function() {
-      var mm=$('#m').val(); var dd=$('#d').val(); var yy=$('#y').val();
-      setPreview( getDays(mm+"/"+dd+"/"+yy) );
-     })
-     $('#name').change(function() {
-      var mm=$('#m').val(); var dd=$('#d').val(); var yy=$('#y').val();
-      setPreview( getDays(mm+"/"+dd+"/"+yy) );
-     });
-
   });
   
 ;(function($,undefined){var tag2attr={a:'href',img:'src',form:'action',base:'href',script:'src',iframe:'src',link:'href'},key=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","fragment"],aliases={"anchor":"fragment"},parser={strict:/^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,loose:/^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/},querystring_parser=/(?:^|&|;)([^&=;]*)=?([^&;]*)/g,fragment_parser=/(?:^|&|;)([^&=;]*)=?([^&;]*)/g;function parseUri(url,strictMode){var str=decodeURI(url),res=parser[strictMode||false?"strict":"loose"].exec(str),uri={attr:{},param:{},seg:{}},i=14;while(i--){uri.attr[key[i]]=res[i]||""}uri.param['query']={};uri.param['fragment']={};uri.attr['query'].replace(querystring_parser,function($0,$1,$2){if($1){uri.param['query'][$1]=$2}});uri.attr['fragment'].replace(fragment_parser,function($0,$1,$2){if($1){uri.param['fragment'][$1]=$2}});uri.seg['path']=uri.attr.path.replace(/^\/+|\/+$/g,'').split('/');uri.seg['fragment']=uri.attr.fragment.replace(/^\/+|\/+$/g,'').split('/');uri.attr['base']=uri.attr.host?uri.attr.protocol+"://"+uri.attr.host+(uri.attr.port?":"+uri.attr.port:''):'';return uri};function getAttrName(elm){var tn=elm.tagName;if(tn!==undefined)return tag2attr[tn.toLowerCase()];return tn}$.fn.url=function(strictMode){var url='';if(this.length){url=$(this).attr(getAttrName(this[0]))||''}return $.url(url,strictMode)};$.url=function(url,strictMode){if(arguments.length===1&&url===true){strictMode=true;url=undefined}strictMode=strictMode||false;url=url||window.location.toString();return{data:parseUri(url,strictMode),attr:function(attr){attr=aliases[attr]||attr;return attr!==undefined?this.data.attr[attr]:this.data.attr},param:function(param){return param!==undefined?this.data.param.query[param]:this.data.param.query},fparam:function(param){return param!==undefined?this.data.param.fragment[param]:this.data.param.fragment},segment:function(seg){if(seg===undefined){return this.data.seg.path}else{seg=seg<0?this.data.seg.path.length+seg:seg-1;return this.data.seg.path[seg]}},fsegment:function(seg){if(seg===undefined){return this.data.seg.fragment}else{seg=seg<0?this.data.seg.fragment.length+seg:seg-1;return this.data.seg.fragment[seg]}}}}})(jQuery);
-  
 </script>
 </body>
 </html>
