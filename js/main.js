@@ -2,10 +2,12 @@ var colors=["#333333","#111111","#000000","#222222"];
 var h=3700,w;
 var a=1;
 var min=0;
+var papers=[];
 var counter=0,totalmarks=0;
 var context,canvas;
 var offset=0,longcat=0;
 var tip=1;
+var y;
 
 function newPen(){
   min=Math.random()*0.4+0.5;
@@ -17,9 +19,15 @@ function newPen(){
 }
 
 function clickclack(k){
-  var p=Array();
+}
+
+function think(k){
+
+  var p=[];
+  var cnt=0;
   var rand=20;
-  var num=k,x=rand,y=rand;
+  var num=k,x=rand;
+  y=rand;
 
   for(var i=0;i<num;i++){
     x+=4;
@@ -28,22 +36,37 @@ function clickclack(k){
     if(i>4 && i%5==0){
       x+=Math.random()*8+8;
       if(x > w-rand*(Math.random()*4.0+2)){
-        x=rand+r(20);
-        y+=30+r(10.0);
+        x=rand+r(40);
+        y+=30+r(16.0);
+        if(y>h-rand*2){
+          y=rand;
+          papers.push(p);
+          p=[];
+        }
       }
     }
     if((i+1)%5==0)close=true;
     else close=false;
-    p.push([x,y,close]);
+    p.push([Math.round(x),Math.round(y),close]);
   }
-  context = canvas.get(0).getContext("2d");
-  context.lineJoin = "round";
-  newPen();
-  for(var i=0;i<num;i++){
-    if(p[i][1]>longcat-10)grow();
-    mark(p[i][0],p[i][1]-longcat+h,p[i][2]);
-  }
+  papers.push(p);
+  p=[];
+}
 
+function render(){
+  var next=papers[0];
+  var lo=next[next.length-1][1];
+  grow(lo);
+  newPen();
+  for(var k=0;k<papers.length;k++){
+    var p=papers[k];
+    for(var i=0;i<p.length;i++)mark(p[i][0],p[i][1],p[i][2]);
+    if(k<papers.length-1){
+      var next=papers[k+1];
+      var lo=next[next.length-1][1];
+      grow(lo);
+    }
+  }
 }
 
 function r(input){ return Math.random()*input; }
@@ -78,21 +101,18 @@ function mark(x,y,close){
   context.stroke();
 }
 
-function grow(){
-  console.log("adding a canvas");
+function grow(lo){
   canvas = $('<canvas/>');
   canvas[0].id="canvas"+$("canvas").length;
+  if(lo<3000)h=lo+200;
   canvas[0].height = h;
   canvas[0].width = w;
-  longcat+=h;
-  counter++;
-  $('body').append(canvas);
+  $('#container').append(canvas);
   context = canvas.get(0).getContext("2d");
   context.lineJoin = "round";
-
 }
 
 w=$(window).get(0).innerWidth-10;
 var num=url('?count');
-grow();
-clickclack(num);
+think(num);
+render();

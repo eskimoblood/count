@@ -21,6 +21,16 @@ textarea {
 body {
     font-size: 1em;
     line-height: 1.4;
+    background:#EEE;
+}
+canvas{
+display: block;
+padding: 0px;
+margin: 0px;
+margin-top: -30px;
+}
+#container{
+margin-top: 40px;
 }
 
 /*
