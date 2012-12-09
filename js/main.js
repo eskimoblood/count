@@ -30,14 +30,16 @@ function think(k){
   y=rand;
 
   for(var i=0;i<num;i++){
-    x+=4;
+    x+=3+Math.random()*3;
     if(Math.random()<0.05)y+=Math.random()*2.0;
     if(Math.random()<0.05)y+=Math.random()-1;
     if(i>4 && i%5==0){
       x+=Math.random()*8+8;
       if(x > w-rand*(Math.random()*4.0+2)){
         x=rand+r(40);
+        if(Math.random()<0.05)x+=r(200);
         y+=30+r(16.0);
+        if(Math.random()<0.05)y+=r(50);
         if(y>h-rand*2){
           y=rand;
           papers.push(p);
@@ -47,6 +49,7 @@ function think(k){
     }
     if((i+1)%5==0)close=true;
     else close=false;
+    if(Math.random()<0.037)y+=Math.random()*7-3;
     p.push([Math.round(x),Math.round(y),close]);
   }
   papers.push(p);
@@ -77,7 +80,7 @@ function mark(x,y,close){
       l=r(10)+16,
       angle=(r(16)-8)/180.0*Math.PI;
   angle+=offset;
-  var startX=x+r(2.0),
+  var startX=x+r(4.0),
       startY=y+r(8.0);
   a-=quality;
   if(a<min){newPen();}
